@@ -1,1 +1,9 @@
 C:\Mike\C#\MStockAnalysis\MStockAnalysis\bin\Debug\MStockAnalysis.exe.config
+C:\Mike\C#\MStockAnalysis\MStockAnalysis\bin\Debug\MStockAnalysis.exe
+C:\Mike\C#\MStockAnalysis\MStockAnalysis\bin\Debug\MStockAnalysis.pdb
+C:\Mike\C#\MStockAnalysis\MStockAnalysis\obj\Debug\MStockAnalysis.csprojResolveAssemblyReference.cache
+C:\Mike\C#\MStockAnalysis\MStockAnalysis\obj\Debug\MStockAnalysis.Form1.resources
+C:\Mike\C#\MStockAnalysis\MStockAnalysis\obj\Debug\MStockAnalysis.Properties.Resources.resources
+C:\Mike\C#\MStockAnalysis\MStockAnalysis\obj\Debug\MStockAnalysis.csproj.GenerateResource.Cache
+C:\Mike\C#\MStockAnalysis\MStockAnalysis\obj\Debug\MStockAnalysis.exe
+C:\Mike\C#\MStockAnalysis\MStockAnalysis\obj\Debug\MStockAnalysis.pdb
