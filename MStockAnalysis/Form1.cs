@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using CsvReadWrite;
 
 namespace MStockAnalysis
 {
@@ -32,15 +33,26 @@ namespace MStockAnalysis
         }
     
         //This is called when the "Say Hello" button is clicked
-        private void txtSayHello_Click(object sender, EventArgs e)
+        private void ReadData(object sender, EventArgs e)
         {
             //writing to the console now cuases the text to be displayed in the text box
             Console.WriteLine("\nHello World");
 
-            for (int i = 0; i < 10; i++)
+            using (CsvFileReader reader = new CsvFileReader("etc/Spy.csv"))
             {
-                Console.WriteLine("\ntest");
+                CsvRow row = new CsvRow();
+                while (reader.ReadRow(row))
+                {
+                    foreach (string s in row)
+                    {
+                        Console.Write(s);
+                        Console.Write(" ");
+                    }
+                    Console.WriteLine();
+                }
             }
+            Console.WriteLine("Finished");
+            Console.WriteLine(Environment.CurrentDirectory);
         }
     }
 }

@@ -40,7 +40,7 @@
             this.txtSayHello.TabIndex = 0;
             this.txtSayHello.Text = "SayHello";
             this.txtSayHello.UseVisualStyleBackColor = true;
-            this.txtSayHello.Click += new System.EventHandler(this.txtSayHello_Click);
+            this.txtSayHello.Click += new System.EventHandler(this.ReadData);
             // 
             // txtConsole
             // 
