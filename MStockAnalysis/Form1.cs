@@ -33,7 +33,7 @@ namespace MStockAnalysis
         }
     
         //This is called when the "Say Hello" button is clicked
-        private void ReadData(object sender, EventArgs e)
+        private void ReadCSVs(object sender, EventArgs e)
         {
             //writing to the console now cuases the text to be displayed in the text box
             Console.WriteLine("\nHello World");
@@ -41,7 +41,8 @@ namespace MStockAnalysis
             using (CsvFileReader reader = new CsvFileReader("etc/Spy.csv"))
             {
                 CsvRow row = new CsvRow();
-                while (reader.ReadRow(row))
+                int counter = 0;
+                while (reader.ReadRow(row) && counter <=20)
                 {
                     foreach (string s in row)
                     {
@@ -49,10 +50,17 @@ namespace MStockAnalysis
                         Console.Write(" ");
                     }
                     Console.WriteLine();
+                    counter++;
                 }
             }
             Console.WriteLine("Finished");
             Console.WriteLine(Environment.CurrentDirectory);
         }
+        private void STOP(object sender, EventArgs e)
+        {
+            Console.WriteLine("stopped");
+            return;
+        }
+
     }
 }
