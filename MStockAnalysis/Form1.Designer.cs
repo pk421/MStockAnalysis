@@ -33,6 +33,7 @@
             this.bSTOP = new System.Windows.Forms.Button();
             this.bgReadCSVs = new System.ComponentModel.BackgroundWorker();
             this.bgReadCSVs.WorkerReportsProgress = true;
+            this.bgReadCSVs.WorkerSupportsCancellation = true;
             this.SuspendLayout();
             // 
             // bReadCSVs

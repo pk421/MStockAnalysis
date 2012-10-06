@@ -66,6 +66,7 @@ namespace MStockAnalysis
         }
         private void STOP(object sender, EventArgs e)
         {
+            bgReadCSVs.CancelAsync();
             Console.WriteLine("hit stop button");
         }
 
@@ -74,28 +75,37 @@ namespace MStockAnalysis
             BackgroundWorker bg = sender as BackgroundWorker;
             using (CsvFileReader reader = new CsvFileReader("etc/Spy.csv"))
             {
+                //Thread.Sleep(3000);
                 CsvRow row = new CsvRow();
                 int counter = 0;
-                while (reader.ReadRow(row) && counter <=1000)
+                while (reader.ReadRow(row) && counter <=50 && !bgReadCSVs.CancellationPending)
                 {
+                    if (bgReadCSVs.CancellationPending == true)
+                    {
+                        e.Cancel = true;
+                        bg.ReportProgress(0, "\n\n\n\nCancel\n\n\n\n");
+                        return;
+                        //break;
+                    }
+
                     foreach (string s in row)
                     {
-                        //bg.ReportProgress(0, s.ToString());
+                        bg.ReportProgress(0, s);
                         //bg.ReportProgress(0, " ");
                     }
-                    //bg.ReportProgress(0, ""); 
+                    bg.ReportProgress(0, "\n"); 
                     counter++;
                 }
             }
             //Thread.Sleep(10000);
-            string outs = "test_done";
+            string outs = "test_done\n";
             ProgressChangedEventArgs se;
             bg.ReportProgress(0, outs);
         }
 
         private void bgReadCSVs_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            Console.WriteLine(e.UserState);
+            Console.Write(e.UserState);
         }
 
     }
