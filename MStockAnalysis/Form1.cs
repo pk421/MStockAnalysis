@@ -34,13 +34,12 @@ namespace MStockAnalysis
         }
 
 
-        private async void ReadCSVs_Click(object sender, EventArgs e)
+        private void ReadCSVs_Click(object sender, EventArgs e)
         {
-            //await ReadCSVs();
-            backgroundWorker1.RunWorkerAsync();
+            bgReadCSVs.RunWorkerAsync();
         }
         
-        public async Task<string> ReadCSVs()
+        public void ReadCSVs()
         {
             //writing to the console now causes the text to be displayed in the text box
             Console.WriteLine("\nHello World");
@@ -62,28 +61,41 @@ namespace MStockAnalysis
             }
             Console.WriteLine("Finished");
             Console.WriteLine(Environment.CurrentDirectory);
-            var today = await Task.FromResult<string>(DateTime.Now.DayOfWeek.ToString());
-            return "Finished Reading CSVs";
+            //var today = await Task.FromResult<string>(DateTime.Now.DayOfWeek.ToString());
+            //return "Finished Reading CSVs";
         }
         private void STOP(object sender, EventArgs e)
         {
             Console.WriteLine("hit stop button");
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void bgReadCSVs_DoWork(object sender, DoWorkEventArgs e)
         {
-            //Console.WriteLine("Start Worker, now waiting");
-            Thread.Sleep(10000);
-            //backgroundWorker1.ReportProgress("progress reported!");
-
-            string outs = "test";
             BackgroundWorker bg = sender as BackgroundWorker;
-            bg.ReportProgress(0, outs.ToString());
+            using (CsvFileReader reader = new CsvFileReader("etc/Spy.csv"))
+            {
+                CsvRow row = new CsvRow();
+                int counter = 0;
+                while (reader.ReadRow(row) && counter <=1000)
+                {
+                    foreach (string s in row)
+                    {
+                        //bg.ReportProgress(0, s.ToString());
+                        //bg.ReportProgress(0, " ");
+                    }
+                    //bg.ReportProgress(0, ""); 
+                    counter++;
+                }
+            }
+            //Thread.Sleep(10000);
+            string outs = "test_done";
+            ProgressChangedEventArgs se;
+            bg.ReportProgress(0, outs);
         }
 
-        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void bgReadCSVs_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            Console.WriteLine("test2");
+            Console.WriteLine(e.UserState);
         }
 
     }

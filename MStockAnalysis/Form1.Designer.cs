@@ -31,8 +31,8 @@
             this.bReadCSVs = new System.Windows.Forms.Button();
             this.txtConsole = new System.Windows.Forms.TextBox();
             this.bSTOP = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.bgReadCSVs = new System.ComponentModel.BackgroundWorker();
+            this.bgReadCSVs.WorkerReportsProgress = true;
             this.SuspendLayout();
             // 
             // bReadCSVs
@@ -65,10 +65,10 @@
             this.bSTOP.UseVisualStyleBackColor = true;
             this.bSTOP.Click += new System.EventHandler(this.STOP);
             // 
-            // backgroundWorker1
+            // bgReadCSVs
             // 
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.bgReadCSVs.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgReadCSVs_DoWork);
+            this.bgReadCSVs.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgReadCSVs_ProgressChanged);
             // 
             // Form1
             // 
@@ -91,7 +91,7 @@
         private System.Windows.Forms.Button bReadCSVs;
         private System.Windows.Forms.TextBox txtConsole;
         private System.Windows.Forms.Button bSTOP;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.ComponentModel.BackgroundWorker bgReadCSVs;
     }
 }
 
