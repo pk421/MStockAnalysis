@@ -11,6 +11,7 @@ using System.IO;
 using CsvReadWrite;
 using System.Threading;
 
+
 namespace MStockAnalysis
 {
     public partial class Form1 : Form
@@ -33,41 +34,15 @@ namespace MStockAnalysis
             Console.WriteLine("Now redirecting output to the textbox");
         }
 
-
         private void ReadCSVs_Click(object sender, EventArgs e)
         {
             bgReadCSVs.RunWorkerAsync();
         }
-        
-        public void ReadCSVs()
-        {
-            //writing to the console now causes the text to be displayed in the text box
-            Console.WriteLine("\nHello World");
-
-            using (CsvFileReader reader = new CsvFileReader("etc/Spy.csv"))
-            {
-                CsvRow row = new CsvRow();
-                int counter = 0;
-                while (reader.ReadRow(row) && counter <=1000)
-                {
-                    foreach (string s in row)
-                    {
-                        Console.Write(s);
-                        Console.Write(" ");
-                    }
-                    Console.WriteLine();
-                    counter++;
-                }
-            }
-            Console.WriteLine("Finished");
-            Console.WriteLine(Environment.CurrentDirectory);
-            //var today = await Task.FromResult<string>(DateTime.Now.DayOfWeek.ToString());
-            //return "Finished Reading CSVs";
-        }
+    
         private void STOP(object sender, EventArgs e)
         {
             bgReadCSVs.CancelAsync();
-            Console.WriteLine("hit stop button");
+            Console.WriteLine("STOP Hit");
         }
 
         private void bgReadCSVs_DoWork(object sender, DoWorkEventArgs e)
@@ -75,7 +50,15 @@ namespace MStockAnalysis
             BackgroundWorker bg = sender as BackgroundWorker;
             using (CsvFileReader reader = new CsvFileReader("etc/Spy.csv"))
             {
-                //Thread.Sleep(3000);
+                string[] date = new string[1];
+                double[] Open = new double[1];
+                double[] High = new double[1];
+                double[] Low = new double[1];
+                double[] Close = new double[1];
+                double[] AdjClose = new double[1];
+                double[] Volume = new double[1];
+
+
                 CsvRow row = new CsvRow();
                 int counter = 0;
                 while (reader.ReadRow(row) && counter <=50 && !bgReadCSVs.CancellationPending)
@@ -83,29 +66,57 @@ namespace MStockAnalysis
                     if (bgReadCSVs.CancellationPending == true)
                     {
                         e.Cancel = true;
-                        bg.ReportProgress(0, "\n\n\n\nCancel\n\n\n\n");
-                        return;
-                        //break;
                     }
 
-                    foreach (string s in row)
+                    while (row[0] != "")
                     {
-                        bg.ReportProgress(0, s);
-                        //bg.ReportProgress(0, " ");
+                        if (bgReadCSVs.CancellationPending == true)
+                        {
+                            e.Cancel = true;
+                        }
+
+                        date[counter] = row[0];
+                        Array.Resize(ref date, date.Length + 1);
+
+                        Open[counter] = Convert.ToDouble(row[1]);
+                        Array.Resize(ref Open, Open.Length + 1);
+
+                        High[counter] = Convert.ToDouble(row[2]);
+                        Array.Resize(ref High, High.Length + 1);
+
+                        Low[counter] = Convert.ToDouble(row[3]);
+                        Array.Resize(ref Low, Low.Length + 1);
+
+                        Close[counter] = Convert.ToDouble(row[4]);
+                        Array.Resize(ref Close, Close.Length + 1);
+
+                        Volume[counter] = Convert.ToDouble(row[5]);
+                        Array.Resize(ref Volume, Volume.Length + 1);
+
+                       bg.ReportProgress(0, counter);
+                       bg.ReportProgress(0, "\n");
+                       Thread.Sleep(20);
+                       counter ++;
                     }
-                    bg.ReportProgress(0, "\n"); 
-                    counter++;
+                    
                 }
             }
-            //Thread.Sleep(10000);
-            string outs = "test_done\n";
-            ProgressChangedEventArgs se;
-            bg.ReportProgress(0, outs);
+            bg.ReportProgress(0, "Test Finished\n");
         }
 
         private void bgReadCSVs_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            Console.Write(e.UserState);
+            if (bgReadCSVs.CancellationPending == false)
+            {
+                Console.Write(e.UserState);
+            }
+        }
+        private void bgReadCSVs_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                Console.WriteLine("Cancelled");
+            }
         }
 
     }
