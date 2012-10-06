@@ -31,6 +31,8 @@
             this.bReadCSVs = new System.Windows.Forms.Button();
             this.txtConsole = new System.Windows.Forms.TextBox();
             this.bSTOP = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker1.WorkerReportsProgress = true;
             this.SuspendLayout();
             // 
             // bReadCSVs
@@ -42,7 +44,7 @@
             this.bReadCSVs.TabIndex = 0;
             this.bReadCSVs.Text = "Read CSVs";
             this.bReadCSVs.UseVisualStyleBackColor = true;
-            this.bReadCSVs.Click += new System.EventHandler(this.ReadCSVs);
+            this.bReadCSVs.Click += new System.EventHandler(this.ReadCSVs_Click);
             // 
             // txtConsole
             // 
@@ -62,6 +64,11 @@
             this.bSTOP.Text = "STOP";
             this.bSTOP.UseVisualStyleBackColor = true;
             this.bSTOP.Click += new System.EventHandler(this.STOP);
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             // 
             // Form1
             // 
@@ -84,6 +91,7 @@
         private System.Windows.Forms.Button bReadCSVs;
         private System.Windows.Forms.TextBox txtConsole;
         private System.Windows.Forms.Button bSTOP;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

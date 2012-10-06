@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using CsvReadWrite;
+using System.Threading;
 
 namespace MStockAnalysis
 {
@@ -31,18 +32,24 @@ namespace MStockAnalysis
             Console.SetOut(_writer);
             Console.WriteLine("Now redirecting output to the textbox");
         }
-    
-        //This is called when the "Say Hello" button is clicked
-        private void ReadCSVs(object sender, EventArgs e)
+
+
+        private async void ReadCSVs_Click(object sender, EventArgs e)
         {
-            //writing to the console now cuases the text to be displayed in the text box
+            //await ReadCSVs();
+            backgroundWorker1.RunWorkerAsync();
+        }
+        
+        public async Task<string> ReadCSVs()
+        {
+            //writing to the console now causes the text to be displayed in the text box
             Console.WriteLine("\nHello World");
 
             using (CsvFileReader reader = new CsvFileReader("etc/Spy.csv"))
             {
                 CsvRow row = new CsvRow();
                 int counter = 0;
-                while (reader.ReadRow(row) && counter <=20)
+                while (reader.ReadRow(row) && counter <=1000)
                 {
                     foreach (string s in row)
                     {
@@ -55,11 +62,28 @@ namespace MStockAnalysis
             }
             Console.WriteLine("Finished");
             Console.WriteLine(Environment.CurrentDirectory);
+            var today = await Task.FromResult<string>(DateTime.Now.DayOfWeek.ToString());
+            return "Finished Reading CSVs";
         }
         private void STOP(object sender, EventArgs e)
         {
-            Console.WriteLine("stopped");
-            return;
+            Console.WriteLine("hit stop button");
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //Console.WriteLine("Start Worker, now waiting");
+            Thread.Sleep(10000);
+            //backgroundWorker1.ReportProgress("progress reported!");
+
+            string outs = "test";
+            BackgroundWorker bg = sender as BackgroundWorker;
+            bg.ReportProgress(0, outs.ToString());
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Console.WriteLine("test2");
         }
 
     }
