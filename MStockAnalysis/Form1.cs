@@ -61,18 +61,14 @@ namespace MStockAnalysis
 
                 CsvRow row = new CsvRow();
                 int counter = 0;
-                while (reader.ReadRow(row) && counter <=50 && !bgReadCSVs.CancellationPending)
+                while (reader.ReadRow(row) && counter <= 5 && !bgReadCSVs.CancellationPending)
                 {
-                    if (bgReadCSVs.CancellationPending == true)
-                    {
-                        e.Cancel = true;
-                    }
-
                     while (row[0] != "")
                     {
                         if (bgReadCSVs.CancellationPending == true)
                         {
                             e.Cancel = true;
+                            return;
                         }
 
                         date[counter] = row[0];
@@ -102,16 +98,17 @@ namespace MStockAnalysis
                 }
             }
             bg.ReportProgress(0, "Test Finished\n");
+            return;
         }
 
-        private void bgReadCSVs_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        public void bgReadCSVs_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             if (bgReadCSVs.CancellationPending == false)
             {
                 Console.Write(e.UserState);
             }
         }
-        private void bgReadCSVs_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        public void bgReadCSVs_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (e.Cancelled)
             {

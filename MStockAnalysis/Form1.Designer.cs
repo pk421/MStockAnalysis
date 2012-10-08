@@ -70,6 +70,7 @@
             // 
             this.bgReadCSVs.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgReadCSVs_DoWork);
             this.bgReadCSVs.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bgReadCSVs_ProgressChanged);
+            this.bgReadCSVs.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgReadCSVs_RunWorkerCompleted);
             // 
             // Form1
             // 
