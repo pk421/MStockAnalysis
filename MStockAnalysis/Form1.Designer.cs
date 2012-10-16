@@ -64,7 +64,7 @@
             this.bSTOP.TabIndex = 2;
             this.bSTOP.Text = "STOP";
             this.bSTOP.UseVisualStyleBackColor = true;
-            this.bSTOP.Click += new System.EventHandler(this.STOP);
+            this.bSTOP.Click += new System.EventHandler(this.STOP_Click);
             // 
             // bgReadCSVs
             // 

@@ -39,7 +39,7 @@ namespace MStockAnalysis
             bgReadCSVs.RunWorkerAsync();
         }
     
-        private void STOP(object sender, EventArgs e)
+        private void STOP_Click(object sender, EventArgs e)
         {
             bgReadCSVs.CancelAsync();
             Console.WriteLine("STOP Hit");
@@ -61,41 +61,54 @@ namespace MStockAnalysis
 
                 CsvRow row = new CsvRow();
                 int counter = 0;
-                while (reader.ReadRow(row) && counter <= 5 && !bgReadCSVs.CancellationPending)
+                while (reader.ReadRow(row) && counter <= 5000 && !bgReadCSVs.CancellationPending)
                 {
-                    while (row[0] != "")
+                    if (bgReadCSVs.CancellationPending == true)
                     {
-                        if (bgReadCSVs.CancellationPending == true)
-                        {
-                            e.Cancel = true;
-                            return;
-                        }
-
-                        date[counter] = row[0];
-                        Array.Resize(ref date, date.Length + 1);
-
-                        Open[counter] = Convert.ToDouble(row[1]);
-                        Array.Resize(ref Open, Open.Length + 1);
-
-                        High[counter] = Convert.ToDouble(row[2]);
-                        Array.Resize(ref High, High.Length + 1);
-
-                        Low[counter] = Convert.ToDouble(row[3]);
-                        Array.Resize(ref Low, Low.Length + 1);
-
-                        Close[counter] = Convert.ToDouble(row[4]);
-                        Array.Resize(ref Close, Close.Length + 1);
-
-                        Volume[counter] = Convert.ToDouble(row[5]);
-                        Array.Resize(ref Volume, Volume.Length + 1);
-
-                       bg.ReportProgress(0, counter);
-                       bg.ReportProgress(0, "\n");
-                       Thread.Sleep(20);
-                       counter ++;
+                        e.Cancel = true;
+                        return;
                     }
-                    
+
+                    date[counter] = row[0];
+                    Array.Resize(ref date, date.Length + 1);
+
+                    Open[counter] = Convert.ToDouble(row[1]);
+                    Array.Resize(ref Open, Open.Length + 1);
+
+                    High[counter] = Convert.ToDouble(row[2]);
+                    Array.Resize(ref High, High.Length + 1);
+
+                    Low[counter] = Convert.ToDouble(row[3]);
+                    Array.Resize(ref Low, Low.Length + 1);
+
+                    Close[counter] = Convert.ToDouble(row[4]);
+                    Array.Resize(ref Close, Close.Length + 1);
+
+                    Volume[counter] = Convert.ToDouble(row[5]);
+                    Array.Resize(ref Volume, Volume.Length + 1);
+
+                    //bg.ReportProgress(0, date[counter]);
+                    //Thread.Sleep(1);
+                    //bg.ReportProgress(0, "\n");
+
+                    //Thread.Sleep(1);
+                    counter ++;
                 }
+                Array.Resize(ref date, date.Length - 1);
+
+                bg.ReportProgress(0, date[4777]);
+                Array.Reverse(date);
+                Array.Reverse(Open);
+                Array.Reverse(High);
+                Array.Reverse(Low);
+                Array.Reverse(Close);
+                Array.Reverse(Volume);
+                int l = date.Length;
+                string d = date[4779];
+                bg.ReportProgress(0, "\n");
+                bg.ReportProgress(0, d);
+                bg.ReportProgress(0, "\n");
+                bg.ReportProgress(0, date.Length);
             }
             bg.ReportProgress(0, "Test Finished\n");
             return;
@@ -112,7 +125,7 @@ namespace MStockAnalysis
         {
             if (e.Cancelled)
             {
-                Console.WriteLine("Cancelled");
+                Console.WriteLine("Cancel Completed");
             }
         }
 
